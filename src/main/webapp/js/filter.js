@@ -50,7 +50,7 @@
     // if no agent role is present, agentRoleFilter input will not be present, similarly for others
     const agentRoleFilter = document.getElementById('agentRoleFilter');
     if (agentRoleFilter) {
-        addEventListener('input', () => doFilter('agent'));
+        agentRoleFilter.addEventListener('input', () => doFilter('agent'));
     }
 
     const folderRoleFilter = document.getElementById('folderRoleFilter');

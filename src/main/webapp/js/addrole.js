@@ -1,10 +1,16 @@
 'use strict';
 
 // noinspection JSUnusedGlobalSymbols
+const getSelectedValues = (elementId) => {
+    const element = document.getElementById(elementId);
+    if (!element) return [];
+    return Array.from(element.selectedOptions).map(option => option.value);
+};
+
 /**
  * Adds a global role
  */
-const addGlobalRole = () => {
+function addGlobalRole() {
     const roleName = document.getElementById('globalRoleName').value;
     if (!roleName || roleName.length < 3) {
         alert('Please enter a valid name for the role to be added.');
@@ -13,7 +19,7 @@ const addGlobalRole = () => {
 
     const response = {
         name: roleName,
-        permissions: document.getElementById('global-permission-select').getValue(),
+        permissions: getSelectedValues('global-permission-select'),
     };
 
     if (response.permissions.length <= 0) {
@@ -28,7 +34,7 @@ const addGlobalRole = () => {
 /**
  * Adds a Folder Role
  */
-const addFolderRole = () => {
+function addFolderRole() {
     const roleName = document.getElementById('folderRoleName').value;
     if (!roleName || roleName.length < 3) {
         alert('Please enter a valid name for the role to be added');
@@ -37,8 +43,8 @@ const addFolderRole = () => {
 
     const response = {
         name: roleName,
-        permissions: document.getElementById('folder-permission-select').getValue(),
-        folderNames: document.getElementById('folder-select').getValue(),
+        permissions: getSelectedValues('folder-permission-select'),
+        folderNames: getSelectedValues('folder-select'),
     };
 
     if (!response.permissions || response.permissions.length <= 0) {
@@ -58,7 +64,7 @@ const addFolderRole = () => {
 /**
  * Adds an agent Role
  */
-const addAgentRole = () => {
+function addAgentRole() {
     const roleName = document.getElementById('agentRoleName').value;
     if (!roleName || roleName.length < 3) {
         alert('Please enter a valid name for the role to be added');
@@ -67,8 +73,8 @@ const addAgentRole = () => {
 
     const response = {
         name: roleName,
-        agentNames: document.getElementById('agent-select').getValue(),
-        permissions: document.getElementById('agent-permission-select').getValue(),
+        agentNames: getSelectedValues('agent-select'),
+        permissions: getSelectedValues('agent-permission-select'),
     };
 
     if (!response.permissions || response.permissions.length <= 0) {
@@ -89,13 +95,13 @@ const addAgentRole = () => {
  * @param postUrl the URL
  * @param json JSON data to be sent
  */
-const sendPostRequest = (postUrl, json) => {
+function sendPostRequest(postUrl, json) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', postUrl, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     // Jelly file sets up the crumb value for CSRF protection
-    if (crumb.value) {
-        xhr.setRequestHeader('Jenkins-Crumb', crumb.value);
+    if (typeof crumb !== 'undefined' && crumb.value) {
+        xhr.setRequestHeader(crumb.name || 'Jenkins-Crumb', crumb.value);
     }
 
     xhr.onload = () => {

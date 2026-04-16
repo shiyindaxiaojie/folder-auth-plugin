@@ -3,7 +3,7 @@
 /**
  * Sends a GET request and renders the result on the web page.
  */
-const getFolders = () => {
+function getFolders() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `${rootURL}/folder-auth/getAllFolders`, true);
     xhr.send(null);
@@ -21,7 +21,7 @@ const getFolders = () => {
  * Renders all folders on the web UI.
  * @param folders list of folder names
  */
-const renderFoldersAsOptions = (folders) => {
+function renderFoldersAsOptions(folders) {
     const select = document.getElementById('folder-select');
     const loadingLabel = document.getElementById('loading-folders');
 
